@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Urlshortener</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<% if flash[:shortened_id].present? %>
+	<p class='shortened-link'>
+		The shortened url for <%= flash[:org] %> is available here:
+		<%= link_to url_url(flash[:key]), url_url(flash[:key]) %>.
+		The link has been used <%= flash[:count] %> times.
+	</p>
+<%end%>
+<%= yield %>
+	<p class='index-links'>
+	<li><strong>List of URLs</strong></li>
+		<%if @short_urls %>
+		<table>
+		<% for url in @short_urls %>
+			<tr>
+			<td>Original Url: <%=url.url%></td>
+			<td>Shortened Url: <%= link_to url_url(url.key), url_url(url.key)%></td>
+			<td>Usage count: <%=url.count%></td>
+			</tr>
+		<%end%>	
+		<%end%>
+		</table>
+	</p>
+</body>
+</html>
